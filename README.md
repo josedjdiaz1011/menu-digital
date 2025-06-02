@@ -242,3 +242,4 @@ Para soporte técnico o preguntas:
 ---
 
 **¡Empieza a digitalizar tus menús hoy mismo! 🚀**# Menu-para-restaurante-
+# menu-digital
