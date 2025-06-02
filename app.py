@@ -147,8 +147,10 @@ def new_restaurant():
             'address': request.form.get('address', ''),
             'phone': request.form.get('phone', ''),
             'email': request.form.get('email', ''),
+            'whatsapp': request.form.get('whatsapp', ''),
             'instagram': request.form.get('instagram', ''),
             'facebook': request.form.get('facebook', ''),
+            'tiktok': request.form.get('tiktok', ''),
             'website': request.form.get('website', ''),
             'created_at': datetime.now().isoformat(),
             'visits': 0,
@@ -197,8 +199,10 @@ def edit_restaurant(restaurant_id):
             'address': request.form.get('address', ''),
             'phone': request.form.get('phone', ''),
             'email': request.form.get('email', ''),
+            'whatsapp': request.form.get('whatsapp', ''),
             'instagram': request.form.get('instagram', ''),
             'facebook': request.form.get('facebook', ''),
+            'tiktok': request.form.get('tiktok', ''),
             'website': request.form.get('website', ''),
             'updated_at': datetime.now().isoformat()
         })

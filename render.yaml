@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: menu-digital
+    env: python
+    buildCommand: pip install -r pyproject.toml
+    startCommand: gunicorn --bind 0.0.0.0:$PORT --reuse-port --reload main:app
+    envVars:
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: PYTHON_VERSION
+        value: 3.11.0
+    disk:
+      name: menu-uploads
+      mountPath: /opt/render/project/src/uploads
+      sizeGB: 1

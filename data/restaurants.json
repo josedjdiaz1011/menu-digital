@@ -1,1 +1,36 @@
-{}
+{
+  "f94f93ac": {
+    "id": "f94f93ac",
+    "name": "Carby Food ",
+    "description": "Descubre una nueva experiencia gastronómica donde la rapidez no sacrifica la calidad.",
+    "logo": "Carby_Food_-_Logo_page-0001_1748845412.jpg",
+    "address": "Calle 81 #21c-13, Soledad Atlántico",
+    "phone": "+573022782563",
+    "email": "carbyfood.81@gmail.com",
+    "instagram": "https://www.instagram.com/carby_foodbq?igsh=dTk1YWxvbXMyMDRn&utm_source=ig_contact_invite",
+    "facebook": "",
+    "website": "",
+    "created_at": "2025-06-02T06:23:32.487143",
+    "visits": 9,
+    "menu": {
+      "sections": [
+        {
+          "id": "edeb9dcf",
+          "name": "Entradas",
+          "dishes": [
+            {
+              "id": "e0d36068",
+              "name": "Papas texanas ",
+              "description": "Papas fritas, queso gratinado, tocineta ahumada & nuestra increíble salsa de la casa.",
+              "price": "10000.00",
+              "image": "IMG-20250528-WA0112_1748845594.jpg"
+            }
+          ]
+        }
+      ]
+    },
+    "whatsapp": "+57 3022782563",
+    "tiktok": "https://www.tiktok.com/@carby.food?_t=ZS-8wmR75UhvCD&_r=1",
+    "updated_at": "2025-06-02T06:35:42.836130"
+  }
+}

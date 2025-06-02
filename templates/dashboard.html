@@ -173,23 +173,35 @@
                     {% endif %}
 
                     <!-- Social Links -->
-                    {% if restaurant.instagram or restaurant.facebook or restaurant.website %}
+                    {% if restaurant.whatsapp or restaurant.instagram or restaurant.facebook or restaurant.tiktok or restaurant.website %}
                     <div class="mb-3">
+                        {% if restaurant.whatsapp %}
+                            <a href="https://wa.me/{{ restaurant.whatsapp.replace(' ', '').replace('+', '') }}" 
+                               target="_blank" class="btn btn-sm btn-outline-success me-1" title="WhatsApp">
+                                <i class="fab fa-whatsapp"></i>
+                            </a>
+                        {% endif %}
                         {% if restaurant.instagram %}
                             <a href="https://instagram.com/{{ restaurant.instagram.lstrip('@') }}" 
-                               target="_blank" class="btn btn-sm btn-outline-secondary me-1">
+                               target="_blank" class="btn btn-sm btn-outline-secondary me-1" title="Instagram">
                                 <i class="fab fa-instagram"></i>
                             </a>
                         {% endif %}
                         {% if restaurant.facebook %}
                             <a href="https://facebook.com/{{ restaurant.facebook.lstrip('@') }}" 
-                               target="_blank" class="btn btn-sm btn-outline-secondary me-1">
+                               target="_blank" class="btn btn-sm btn-outline-secondary me-1" title="Facebook">
                                 <i class="fab fa-facebook"></i>
+                            </a>
+                        {% endif %}
+                        {% if restaurant.tiktok %}
+                            <a href="https://tiktok.com/@{{ restaurant.tiktok.lstrip('@') }}" 
+                               target="_blank" class="btn btn-sm btn-outline-secondary me-1" title="TikTok">
+                                <i class="fab fa-tiktok"></i>
                             </a>
                         {% endif %}
                         {% if restaurant.website %}
                             <a href="{{ restaurant.website if restaurant.website.startswith('http') else 'https://' + restaurant.website }}" 
-                               target="_blank" class="btn btn-sm btn-outline-secondary">
+                               target="_blank" class="btn btn-sm btn-outline-secondary" title="Sitio Web">
                                 <i class="fas fa-globe"></i>
                             </a>
                         {% endif %}

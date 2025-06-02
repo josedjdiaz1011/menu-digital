@@ -119,12 +119,25 @@
                 <div class="card mb-4">
                     <div class="card-header">
                         <h5 class="mb-0">
-                            <i class="fas fa-share-alt me-2"></i>Redes Sociales
+                            <i class="fas fa-share-alt me-2"></i>Redes Sociales y Contacto
                         </h5>
                     </div>
                     <div class="card-body">
                         <div class="row g-3">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
+                                <label for="whatsapp" class="form-label">
+                                    <i class="fab fa-whatsapp me-1"></i>WhatsApp
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">+</span>
+                                    <input type="tel" class="form-control" id="whatsapp" name="whatsapp" 
+                                           value="{{ restaurant.whatsapp if edit_mode and restaurant.whatsapp else '' }}"
+                                           placeholder="52 55 1234 5678">
+                                </div>
+                                <div class="form-text">Incluye código de país (ej: 52 para México)</div>
+                            </div>
+                            
+                            <div class="col-md-6">
                                 <label for="instagram" class="form-label">
                                     <i class="fab fa-instagram me-1"></i>Instagram
                                 </label>
@@ -136,7 +149,7 @@
                                 </div>
                             </div>
                             
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <label for="facebook" class="form-label">
                                     <i class="fab fa-facebook me-1"></i>Facebook
                                 </label>
@@ -148,7 +161,19 @@
                                 </div>
                             </div>
                             
-                            <div class="col-md-4">
+                            <div class="col-md-6">
+                                <label for="tiktok" class="form-label">
+                                    <i class="fab fa-tiktok me-1"></i>TikTok
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">@</span>
+                                    <input type="text" class="form-control" id="tiktok" name="tiktok" 
+                                           value="{{ restaurant.tiktok.lstrip('@') if edit_mode and restaurant.tiktok else '' }}"
+                                           placeholder="nombreusuario">
+                                </div>
+                            </div>
+                            
+                            <div class="col-12">
                                 <label for="website" class="form-label">
                                     <i class="fas fa-globe me-1"></i>Sitio Web
                                 </label>
