@@ -1,0 +1,309 @@
+{% extends "base.html" %}
+
+{% block title %}Códigos QR - {{ restaurant.name }} - Sistema de Menú Digital{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ url_for('dashboard') }}">Panel</a></li>
+                    <li class="breadcrumb-item"><a href="{{ url_for('edit_menu', restaurant_id=restaurant.id) }}">{{ restaurant.name }}</a></li>
+                    <li class="breadcrumb-item active">Códigos QR</li>
+                </ol>
+            </nav>
+            
+            <h1 class="h2 mb-1">
+                <i class="fas fa-qrcode me-2"></i>Códigos QR
+            </h1>
+            <p class="text-muted">{{ restaurant.name }}</p>
+        </div>
+        <div class="col-auto">
+            <a href="{{ url_for('view_menu', restaurant_id=restaurant.id) }}" 
+               class="btn btn-outline-primary" target="_blank">
+                <i class="fas fa-eye me-2"></i>Ver Menú
+            </a>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <!-- QR Code Display Card -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-qrcode me-2"></i>Código QR del Menú
+                    </h5>
+                </div>
+                <div class="card-body text-center">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <!-- QR Code Image -->
+                            <div class="mb-3">
+                                <img src="{{ url_for('qr_file', filename=qr_filename) }}" 
+                                     alt="Código QR para {{ restaurant.name }}" 
+                                     class="img-fluid border rounded"
+                                     style="max-width: 300px;">
+                            </div>
+                            
+                            <!-- Download Buttons -->
+                            <div class="d-grid gap-2">
+                                <a href="{{ url_for('qr_file', filename=qr_filename) }}" 
+                                   download="{{ restaurant.name|replace(' ', '_') }}_QR.png"
+                                   class="btn btn-primary">
+                                    <i class="fas fa-download me-2"></i>Descargar QR (PNG)
+                                </a>
+                                <button type="button" class="btn btn-outline-primary" onclick="printQR()">
+                                    <i class="fas fa-print me-2"></i>Imprimir QR
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <!-- QR Info -->
+                            <div class="text-start">
+                                <h6 class="fw-bold mb-3">Información del QR</h6>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label small text-muted">URL del Menú</label>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" 
+                                               value="{{ menu_url }}" readonly id="menuUrl">
+                                        <button class="btn btn-outline-secondary" type="button" onclick="copyToClipboard('menuUrl')">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label small text-muted">Restaurante</label>
+                                    <p class="form-control-plaintext">{{ restaurant.name }}</p>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label small text-muted">ID del Restaurante</label>
+                                    <p class="form-control-plaintext font-monospace">{{ restaurant.id }}</p>
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label class="form-label small text-muted">Visitas Totales</label>
+                                    <p class="form-control-plaintext">
+                                        <span class="badge bg-primary">{{ restaurant.visits }}</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Usage Instructions Card -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-info-circle me-2"></i>Cómo Usar los Códigos QR
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <h6><i class="fas fa-table me-2 text-primary"></i>En las Mesas</h6>
+                            <ul class="list-unstyled small">
+                                <li><i class="fas fa-check text-success me-2"></i>Imprime el código QR</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Colócalo en cada mesa</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Los clientes escanean para ver el menú</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Acceso directo desde sus móviles</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <h6><i class="fas fa-share-alt me-2 text-primary"></i>Para Compartir</h6>
+                            <ul class="list-unstyled small">
+                                <li><i class="fas fa-check text-success me-2"></i>Comparte la URL en redes sociales</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Envía por WhatsApp a clientes</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Incluye en tu sitio web</li>
+                                <li><i class="fas fa-check text-success me-2"></i>Agrega a tarjetas de presentación</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- QR Customization Options -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-palette me-2"></i>Opciones de Impresión
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <div class="border rounded p-3 text-center">
+                                <h6 class="small fw-bold">Tamaño Mesa</h6>
+                                <p class="small text-muted mb-2">Ideal para colocar en mesas</p>
+                                <div class="bg-light p-2 rounded mb-2" style="font-size: 0.7em;">
+                                    <strong>{{ restaurant.name }}</strong><br>
+                                    <small>Escanea para ver nuestro menú</small><br>
+                                    <div class="border d-inline-block p-1 mt-1" style="width: 60px; height: 60px;">QR</div>
+                                </div>
+                                <small class="text-muted">10x10 cm</small>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="border rounded p-3 text-center">
+                                <h6 class="small fw-bold">Tamaño Cartel</h6>
+                                <p class="small text-muted mb-2">Para entrada o vitrina</p>
+                                <div class="bg-light p-2 rounded mb-2" style="font-size: 0.8em;">
+                                    <strong>{{ restaurant.name }}</strong><br>
+                                    <small>Menú Digital</small><br>
+                                    <div class="border d-inline-block p-1 mt-1" style="width: 80px; height: 80px;">QR</div>
+                                </div>
+                                <small class="text-muted">20x20 cm</small>
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <div class="border rounded p-3 text-center">
+                                <h6 class="small fw-bold">Tamaño Tarjeta</h6>
+                                <p class="small text-muted mb-2">Para tarjetas de visita</p>
+                                <div class="bg-light p-2 rounded mb-2" style="font-size: 0.6em;">
+                                    <strong>{{ restaurant.name }}</strong><br>
+                                    <div class="border d-inline-block p-1 mt-1" style="width: 40px; height: 40px;">QR</div>
+                                </div>
+                                <small class="text-muted">5x5 cm</small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-3 text-center">
+                        <small class="text-muted">
+                            <i class="fas fa-lightbulb me-1"></i>
+                            Tip: Imprime en papel de buena calidad para mejor escaneado
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Statistics Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="fas fa-chart-bar me-2"></i>Estadísticas de Uso
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row text-center">
+                        <div class="col-4">
+                            <div class="border-end">
+                                <h3 class="text-primary mb-0">{{ restaurant.visits }}</h3>
+                                <small class="text-muted">Visitas Totales</small>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="border-end">
+                                <h3 class="text-success mb-0">{{ restaurant.menu.sections|length }}</h3>
+                                <small class="text-muted">Secciones</small>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <h3 class="text-info mb-0">
+                                {% set total_dishes = 0 %}
+                                {% for section in restaurant.menu.sections %}
+                                    {% set total_dishes = total_dishes + section.dishes|length %}
+                                {% endfor %}
+                                {{ total_dishes }}
+                            </h3>
+                            <small class="text-muted">Platillos</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Print Modal -->
+<div class="modal fade" id="printModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Imprimir Código QR</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body text-center" id="printContent">
+                <div class="p-4">
+                    <h2 class="mb-3">{{ restaurant.name }}</h2>
+                    <p class="h5 mb-4">Menú Digital</p>
+                    <img src="{{ url_for('qr_file', filename=qr_filename) }}" 
+                         alt="Código QR" class="img-fluid mb-3" style="max-width: 250px;">
+                    <p class="mb-2">Escanea este código QR con tu móvil</p>
+                    <p class="small text-muted">{{ menu_url }}</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" onclick="window.print()">
+                    <i class="fas fa-print me-2"></i>Imprimir
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function copyToClipboard(elementId) {
+    const element = document.getElementById(elementId);
+    element.select();
+    element.setSelectionRange(0, 99999);
+    
+    navigator.clipboard.writeText(element.value).then(function() {
+        // Show success feedback
+        const button = element.nextElementSibling;
+        const originalHTML = button.innerHTML;
+        button.innerHTML = '<i class="fas fa-check text-success"></i>';
+        
+        setTimeout(function() {
+            button.innerHTML = originalHTML;
+        }, 2000);
+    });
+}
+
+function printQR() {
+    const printModal = new bootstrap.Modal(document.getElementById('printModal'));
+    printModal.show();
+}
+
+// Print styles
+const printStyles = `
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+        #printContent, #printContent * {
+            visibility: visible;
+        }
+        #printContent {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+        }
+        .modal-header, .modal-footer {
+            display: none !important;
+        }
+    }
+`;
+
+// Add print styles to document
+const style = document.createElement('style');
+style.type = 'text/css';
+style.innerHTML = printStyles;
+document.head.appendChild(style);
+</script>
+{% endblock %}

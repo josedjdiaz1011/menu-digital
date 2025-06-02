@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Menú - {{ restaurant.name }} - Sistema de Menú Digital{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ url_for('dashboard') }}">Panel</a></li>
+                    <li class="breadcrumb-item active">{{ restaurant.name }}</li>
+                </ol>
+            </nav>
+            
+            <h1 class="h2 mb-1">
+                <i class="fas fa-utensils me-2"></i>Editar Menú
+            </h1>
+            <p class="text-muted mb-0">{{ restaurant.name }}</p>
+        </div>
+        <div class="col-auto">
+            <div class="btn-group">
+                <a href="{{ url_for('view_menu', restaurant_id=restaurant.id) }}" 
+                   class="btn btn-outline-primary" target="_blank">
+                    <i class="fas fa-eye me-2"></i>Ver Menú
+                </a>
+                <a href="{{ url_for('view_qr_codes', restaurant_id=restaurant.id) }}" 
+                   class="btn btn-outline-success">
+                    <i class="fas fa-qrcode me-2"></i>Códigos QR
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Section Form -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="mb-0">
+                <i class="fas fa-plus me-2"></i>Agregar Nueva Sección
+            </h5>
+        </div>
+        <div class="card-body">
+            <form method="POST" action="{{ url_for('add_section', restaurant_id=restaurant.id) }}">
+                <div class="row g-2 align-items-end">
+                    <div class="col">
+                        <label for="section_name" class="form-label">Nombre de la Sección</label>
+                        <input type="text" class="form-control" id="section_name" name="section_name" 
+                               placeholder="ej. Entradas, Platos Principales, Postres..." required>
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-plus me-1"></i>Agregar Sección
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Menu Sections -->
+    {% if restaurant.menu.sections %}
+        {% for section in restaurant.menu.sections %}
+        <div class="card mb-4">
+            <div class="card-header">
+                <div class="row align-items-center">
+                    <div class="col">
+                        <h5 class="mb-0">
+                            <i class="fas fa-list me-2"></i>{{ section.name }}
+                            <span class="badge bg-secondary ms-2">{{ section.dishes|length }} platillo{% if section.dishes|length != 1 %}s{% endif %}</span>
+                        </h5>
+                    </div>
+                    <div class="col-auto">
+                        <form method="POST" action="{{ url_for('delete_section', restaurant_id=restaurant.id, section_id=section.id) }}" 
+                              style="display: inline;" 
+                              onsubmit="return confirm('¿Estás seguro de eliminar esta sección y todos sus platillos?')">
+                            <button type="submit" class="btn btn-outline-danger btn-sm">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <!-- Add Dish Form -->
+                <form method="POST" action="{{ url_for('add_dish', restaurant_id=restaurant.id, section_id=section.id) }}" 
+                      enctype="multipart/form-data" class="mb-4 p-3 bg-light rounded">
+                    <h6 class="mb-3">
+                        <i class="fas fa-plus me-2"></i>Agregar Platillo a {{ section.name }}
+                    </h6>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="dish_name_{{ section.id }}" class="form-label">Nombre del Platillo</label>
+                            <input type="text" class="form-control" id="dish_name_{{ section.id }}" 
+                                   name="dish_name" required placeholder="ej. Ensalada César">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="dish_price_{{ section.id }}" class="form-label">Precio</label>
+                            <input type="text" class="form-control" id="dish_price_{{ section.id }}" 
+                                   name="dish_price" placeholder="ej. $25.99">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="dish_image_{{ section.id }}" class="form-label">Imagen</label>
+                            <input type="file" class="form-control" id="dish_image_{{ section.id }}" 
+                                   name="dish_image" accept="image/*">
+                        </div>
+                        <div class="col-12">
+                            <label for="dish_description_{{ section.id }}" class="form-label">Descripción</label>
+                            <textarea class="form-control" id="dish_description_{{ section.id }}" 
+                                      name="dish_description" rows="2" 
+                                      placeholder="Describe los ingredientes y preparación..."></textarea>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-plus me-1"></i>Agregar Platillo
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                <!-- Dishes List -->
+                {% if section.dishes %}
+                <div class="row g-3">
+                    {% for dish in section.dishes %}
+                    <div class="col-lg-6">
+                        <div class="card">
+                            <div class="row g-0">
+                                {% if dish.image %}
+                                <div class="col-4">
+                                    <img src="{{ url_for('uploaded_file', filename=dish.image) }}" 
+                                         class="img-fluid h-100 rounded-start" 
+                                         style="object-fit: cover;" alt="{{ dish.name }}">
+                                </div>
+                                <div class="col-8">
+                                {% else %}
+                                <div class="col-12">
+                                {% endif %}
+                                    <div class="card-body p-3">
+                                        <div class="d-flex justify-content-between align-items-start mb-2">
+                                            <h6 class="card-title mb-0">{{ dish.name }}</h6>
+                                            <form method="POST" 
+                                                  action="{{ url_for('delete_dish', restaurant_id=restaurant.id, dish_id=dish.id) }}" 
+                                                  style="display: inline;"
+                                                  onsubmit="return confirm('¿Eliminar este platillo?')">
+                                                <button type="submit" class="btn btn-outline-danger btn-sm">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                        
+                                        {% if dish.price %}
+                                            <div class="fw-bold text-primary mb-2">${{ dish.price }}</div>
+                                        {% endif %}
+                                        
+                                        {% if dish.description %}
+                                            <p class="card-text small text-muted mb-0">
+                                                {{ dish.description[:100] }}{% if dish.description|length > 100 %}...{% endif %}
+                                            </p>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="text-center text-muted py-4">
+                    <i class="fas fa-utensils fa-2x mb-2"></i>
+                    <p class="mb-0">No hay platillos en esta sección</p>
+                    <small>Usa el formulario de arriba para agregar el primer platillo</small>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+    <!-- Empty State -->
+    <div class="card">
+        <div class="card-body text-center py-5">
+            <i class="fas fa-list fa-4x text-muted mb-3"></i>
+            <h4>No hay secciones en el menú</h4>
+            <p class="text-muted mb-4">
+                Comienza creando la primera sección de tu menú (ej. Entradas, Platos Principales, Bebidas)
+            </p>
+            <p class="small text-muted">
+                Usa el formulario de arriba para agregar tu primera sección
+            </p>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/menu_manager.js') }}"></script>
+{% endblock %}

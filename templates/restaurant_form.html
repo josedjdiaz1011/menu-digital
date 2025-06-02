@@ -1,0 +1,225 @@
+{% extends "base.html" %}
+
+{% block title %}
+    {% if edit_mode %}Editar Restaurante{% else %}Nuevo Restaurante{% endif %} - Sistema de Menú Digital
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="{{ url_for('dashboard') }}">Panel</a></li>
+                    <li class="breadcrumb-item active">
+                        {% if edit_mode %}Editar Restaurante{% else %}Nuevo Restaurante{% endif %}
+                    </li>
+                </ol>
+            </nav>
+            
+            <h1 class="h2 mb-1">
+                {% if edit_mode %}
+                    <i class="fas fa-edit me-2"></i>Editar Restaurante
+                {% else %}
+                    <i class="fas fa-plus me-2"></i>Nuevo Restaurante
+                {% endif %}
+            </h1>
+            <p class="text-muted">
+                {% if edit_mode %}
+                    Actualiza la información de tu restaurante
+                {% else %}
+                    Configura la información básica de tu restaurante
+                {% endif %}
+            </p>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <form method="POST" enctype="multipart/form-data">
+                <!-- Basic Information Card -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-info-circle me-2"></i>Información Básica
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="name" class="form-label">Nombre del Restaurante *</label>
+                                <input type="text" class="form-control" id="name" name="name" 
+                                       value="{{ restaurant.name if edit_mode else '' }}" required>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label for="logo" class="form-label">Logo del Restaurante</label>
+                                <input type="file" class="form-control" id="logo" name="logo" 
+                                       accept="image/*" onchange="previewImage(this)">
+                                <div class="form-text">Formatos: PNG, JPG, GIF. Máximo 5MB.</div>
+                            </div>
+                            
+                            <div class="col-12">
+                                <label for="description" class="form-label">Descripción</label>
+                                <textarea class="form-control" id="description" name="description" 
+                                          rows="3" placeholder="Describe tu restaurante...">{{ restaurant.description if edit_mode else '' }}</textarea>
+                            </div>
+
+                            <!-- Logo Preview -->
+                            <div class="col-12">
+                                <div id="logoPreview" class="text-center" 
+                                     {% if not (edit_mode and restaurant.logo) %}style="display: none;"{% endif %}>
+                                    {% if edit_mode and restaurant.logo %}
+                                        <img src="{{ url_for('uploaded_file', filename=restaurant.logo) }}" 
+                                             alt="Logo actual" class="img-thumbnail" 
+                                             style="max-width: 200px; max-height: 200px;">
+                                        <div class="form-text">Logo actual</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Information Card -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-address-book me-2"></i>Información de Contacto
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-12">
+                                <label for="address" class="form-label">Dirección</label>
+                                <input type="text" class="form-control" id="address" name="address" 
+                                       value="{{ restaurant.address if edit_mode else '' }}"
+                                       placeholder="Dirección completa del restaurante">
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label for="phone" class="form-label">Teléfono</label>
+                                <input type="tel" class="form-control" id="phone" name="phone" 
+                                       value="{{ restaurant.phone if edit_mode else '' }}"
+                                       placeholder="(555) 123-4567">
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <label for="email" class="form-label">Correo Electrónico</label>
+                                <input type="email" class="form-control" id="email" name="email" 
+                                       value="{{ restaurant.email if edit_mode else '' }}"
+                                       placeholder="contacto@restaurante.com">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Social Media Card -->
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">
+                            <i class="fas fa-share-alt me-2"></i>Redes Sociales
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label for="instagram" class="form-label">
+                                    <i class="fab fa-instagram me-1"></i>Instagram
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">@</span>
+                                    <input type="text" class="form-control" id="instagram" name="instagram" 
+                                           value="{{ restaurant.instagram.lstrip('@') if edit_mode and restaurant.instagram else '' }}"
+                                           placeholder="nombreusuario">
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <label for="facebook" class="form-label">
+                                    <i class="fab fa-facebook me-1"></i>Facebook
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">@</span>
+                                    <input type="text" class="form-control" id="facebook" name="facebook" 
+                                           value="{{ restaurant.facebook.lstrip('@') if edit_mode and restaurant.facebook else '' }}"
+                                           placeholder="nombreusuario">
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4">
+                                <label for="website" class="form-label">
+                                    <i class="fas fa-globe me-1"></i>Sitio Web
+                                </label>
+                                <input type="url" class="form-control" id="website" name="website" 
+                                       value="{{ restaurant.website if edit_mode else '' }}"
+                                       placeholder="https://www.restaurante.com">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row g-2">
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-primary w-100">
+                                    {% if edit_mode %}
+                                        <i class="fas fa-save me-2"></i>Guardar Cambios
+                                    {% else %}
+                                        <i class="fas fa-plus me-2"></i>Crear Restaurante
+                                    {% endif %}
+                                </button>
+                            </div>
+                            <div class="col-md-6">
+                                <a href="{{ url_for('dashboard') }}" class="btn btn-outline-secondary w-100">
+                                    <i class="fas fa-times me-2"></i>Cancelar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+function previewImage(input) {
+    const preview = document.getElementById('logoPreview');
+    
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+            preview.innerHTML = `
+                <img src="${e.target.result}" alt="Vista previa" class="img-thumbnail" 
+                     style="max-width: 200px; max-height: 200px;">
+                <div class="form-text">Vista previa del nuevo logo</div>
+            `;
+            preview.style.display = 'block';
+        };
+        
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+// Form validation
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form');
+    const nameInput = document.getElementById('name');
+    
+    form.addEventListener('submit', function(e) {
+        if (nameInput.value.trim().length < 2) {
+            e.preventDefault();
+            alert('El nombre del restaurante debe tener al menos 2 caracteres');
+            nameInput.focus();
+        }
+    });
+});
+</script>
+{% endblock %}
