@@ -87,3 +87,5 @@ backups/
 # Environment variables
 .env.local
 .env.production
+
+git-askpass.sh
