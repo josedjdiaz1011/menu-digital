@@ -7,11 +7,11 @@
     "address": "Calle 81 #21c-13, Soledad Atlántico",
     "phone": "+573022782563",
     "email": "carbyfood.81@gmail.com",
-    "instagram": "https://www.instagram.com/carby_foodbq?igsh=dTk1YWxvbXMyMDRn&utm_source=ig_contact_invite",
+    "instagram": "carby_foodbq",
     "facebook": "",
     "website": "",
     "created_at": "2025-06-02T06:23:32.487143",
-    "visits": 9,
+    "visits": 18,
     "menu": {
       "sections": [
         {
@@ -26,11 +26,24 @@
               "image": "IMG-20250528-WA0112_1748845594.jpg"
             }
           ]
+        },
+        {
+          "id": "1b95d14a",
+          "name": "Chuzos desgranados",
+          "dishes": [
+            {
+              "id": "ffede173",
+              "name": "Chuzo de pollo",
+              "description": "",
+              "price": "",
+              "image": null
+            }
+          ]
         }
       ]
     },
     "whatsapp": "+57 3022782563",
-    "tiktok": "https://www.tiktok.com/@carby.food?_t=ZS-8wmR75UhvCD&_r=1",
-    "updated_at": "2025-06-02T06:35:42.836130"
+    "tiktok": "carby.food",
+    "updated_at": "2025-06-02T06:40:18.664972"
   }
 }

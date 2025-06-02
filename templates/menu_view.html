@@ -5,47 +5,107 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% if restaurant %}{{ restaurant.name }} - Menú Digital{% else %}Menú no encontrado{% endif %}</title>
     
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
     <!-- Bootstrap CSS (Replit Dark Theme) -->
     <link href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css" rel="stylesheet">
     
     <!-- Font Awesome Icons -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     
-    <!-- Custom CSS for menu view -->
+    <!-- Custom CSS -->
+    <link href="{{ url_for('static', filename='css/custom.css') }}" rel="stylesheet">
+    
+    <!-- Additional futuristic styles for menu view -->
     <style>
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+        
         .hero-section {
-            background: linear-gradient(135deg, var(--bs-primary) 0%, var(--bs-secondary) 100%);
-            padding: 3rem 0;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.8) 0%, rgba(124, 58, 237, 0.8) 100%);
+            padding: 4rem 0;
+            position: relative;
+            overflow: hidden;
         }
-        .dish-card {
-            transition: transform 0.2s ease;
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><g fill="%23ffffff" fill-opacity="0.1"><circle cx="30" cy="30" r="1"/></g></svg>');
+            animation: float 20s ease-in-out infinite;
         }
-        .dish-card:hover {
-            transform: translateY(-2px);
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
         }
-        .dish-image {
-            height: 120px;
-            object-fit: cover;
+        
+        .restaurant-logo-hero {
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            transition: all 0.5s ease;
         }
-        .section-header {
-            background: linear-gradient(90deg, var(--bs-primary), transparent);
-            padding: 1rem;
-            margin: 2rem 0 1rem 0;
-            border-radius: 0.5rem;
+        
+        .restaurant-logo-hero:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
         }
-        .social-links a {
-            transition: transform 0.2s ease;
+        
+        .social-links .btn {
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
         }
-        .social-links a:hover {
-            transform: scale(1.1);
+        
+        .social-links .btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 212, 255, 0.3);
         }
-        @media (max-width: 768px) {
-            .hero-section {
-                padding: 2rem 0;
+        
+        .floating-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        
+        .particle {
+            position: absolute;
+            background: rgba(0, 212, 255, 0.6);
+            border-radius: 50%;
+            animation: particle-float 15s infinite linear;
+        }
+        
+        @keyframes particle-float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
             }
-            .dish-image {
-                height: 100px;
+            10% {
+                opacity: 1;
             }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        .badge {
+            background: linear-gradient(135deg, #00d4ff, #7c3aed) !important;
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
     </style>
 </head>
@@ -77,12 +137,12 @@
                     {% if restaurant.logo %}
                         <img src="{{ url_for('uploaded_file', filename=restaurant.logo) }}" 
                              alt="{{ restaurant.name }}" 
-                             class="img-fluid rounded-circle border border-3 border-white"
-                             style="width: 120px; height: 120px; object-fit: cover;">
+                             class="img-fluid rounded-circle restaurant-logo-hero"
+                             style="width: 140px; height: 140px; object-fit: cover;">
                     {% else %}
-                        <div class="bg-white bg-opacity-25 rounded-circle d-inline-flex align-items-center justify-content-center border border-3 border-white"
-                             style="width: 120px; height: 120px;">
-                            <i class="fas fa-utensils fa-3x"></i>
+                        <div class="bg-white bg-opacity-20 rounded-circle d-inline-flex align-items-center justify-content-center restaurant-logo-hero"
+                             style="width: 140px; height: 140px;">
+                            <i class="fas fa-utensils fa-4x" style="color: rgba(0, 212, 255, 0.8);"></i>
                         </div>
                     {% endif %}
                 </div>
@@ -290,10 +350,13 @@
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- Add smooth scrolling for mobile -->
+    <!-- Enhanced interactions and animations -->
     <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Smooth scroll for section navigation (if added in future)
+        // Add floating particles effect
+        createFloatingParticles();
+        
+        // Smooth scroll for section navigation
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -307,13 +370,89 @@
             });
         });
 
-        // Add loading animation for images
+        // Enhanced image loading with fade-in effect
         document.querySelectorAll('.dish-image').forEach(img => {
+            img.style.opacity = '0';
+            img.style.transition = 'opacity 0.5s ease';
+            
             img.addEventListener('load', function() {
+                this.style.opacity = '1';
                 this.classList.add('loaded');
             });
+            
+            // Trigger load if image already cached
+            if (img.complete) {
+                img.style.opacity = '1';
+            }
+        });
+
+        // Add parallax effect to hero section
+        window.addEventListener('scroll', function() {
+            const heroSection = document.querySelector('.hero-section');
+            const scrolled = window.pageYOffset;
+            const rate = scrolled * -0.5;
+            
+            if (heroSection) {
+                heroSection.style.transform = `translateY(${rate}px)`;
+            }
+        });
+
+        // Animate cards on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all dish cards
+        document.querySelectorAll('.dish-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(30px)';
+            card.style.transition = 'all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1)';
+            observer.observe(card);
+        });
+
+        // Observe accordion items
+        document.querySelectorAll('.accordion-item').forEach(item => {
+            item.style.opacity = '0';
+            item.style.transform = 'translateY(20px)';
+            item.style.transition = 'all 0.5s ease';
+            observer.observe(item);
         });
     });
+
+    function createFloatingParticles() {
+        const heroSection = document.querySelector('.hero-section');
+        if (!heroSection) return;
+
+        const particlesContainer = document.createElement('div');
+        particlesContainer.className = 'floating-particles';
+        heroSection.appendChild(particlesContainer);
+
+        for (let i = 0; i < 15; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            
+            const size = Math.random() * 4 + 2;
+            const left = Math.random() * 100;
+            const delay = Math.random() * 15;
+            
+            particle.style.width = size + 'px';
+            particle.style.height = size + 'px';
+            particle.style.left = left + '%';
+            particle.style.animationDelay = delay + 's';
+            
+            particlesContainer.appendChild(particle);
+        }
+    }
     </script>
 </body>
 </html>

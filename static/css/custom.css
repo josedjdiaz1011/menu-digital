@@ -1,17 +1,65 @@
-/* Custom styles for Digital Menu System */
+/* Custom styles for Digital Menu System - Futuristic Design */
 
 :root {
-    --menu-primary: #4f46e5;
-    --menu-secondary: #6366f1;
-    --menu-accent: #818cf8;
-    --menu-success: #10b981;
-    --menu-warning: #f59e0b;
-    --menu-danger: #ef4444;
+    /* Futuristic Color Palette */
+    --menu-primary: #00d4ff;
+    --menu-secondary: #7c3aed;
+    --menu-accent: #f471b5;
+    --menu-success: #10d9c4;
+    --menu-warning: #ffb800;
+    --menu-danger: #ff5757;
+    
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient-secondary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    --gradient-neon: linear-gradient(135deg, #00d4ff 0%, #7c3aed 50%, #f471b5 100%);
+    --gradient-dark: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    
+    /* Shadows and Effects */
+    --neon-glow: 0 0 20px rgba(0, 212, 255, 0.3);
+    --soft-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    --glass-effect: rgba(255, 255, 255, 0.1);
+    
+    /* Spacing */
+    --border-radius-lg: 20px;
+    --border-radius-xl: 30px;
 }
 
 /* General Styles */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Inter', 'SF Pro Display', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: var(--gradient-dark);
+    background-attachment: fixed;
+    color: #e2e8f0;
+}
+
+/* Glassmorphism effect */
+.glass-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--soft-shadow);
+}
+
+/* Futuristic containers */
+.futuristic-container {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.1) 0%, rgba(124, 58, 237, 0.1) 100%);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: var(--border-radius-xl);
+    box-shadow: var(--neon-glow);
+    overflow: hidden;
+    position: relative;
+}
+
+.futuristic-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, var(--menu-primary) 50%, transparent 100%);
 }
 
 /* Navigation Enhancements */
@@ -20,26 +68,115 @@ body {
     font-size: 1.25rem;
 }
 
-/* Card Enhancements */
+/* Card Enhancements - Futuristic Style */
 .card {
-    border: none;
-    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-    transition: box-shadow 0.15s ease-in-out;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--soft-shadow);
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    overflow: hidden;
+    position: relative;
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 2px;
+    background: var(--gradient-neon);
+    transition: left 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
 .card:hover {
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+    border-color: rgba(0, 212, 255, 0.3);
 }
 
-/* Button Customizations */
+.card:hover::before {
+    left: 0;
+}
+
+.card-header {
+    background: rgba(0, 212, 255, 0.1);
+    border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: var(--border-radius-lg) var(--border-radius-lg) 0 0 !important;
+}
+
+.card-body {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+/* Button Customizations - Futuristic Style */
 .btn {
-    border-radius: 0.5rem;
-    font-weight: 500;
-    transition: all 0.2s ease;
+    border-radius: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 12px 24px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border: none;
+    background: var(--gradient-neon);
+    color: white;
+    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.6s;
 }
 
 .btn:hover {
-    transform: translateY(-1px);
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(0, 212, 255, 0.4);
+}
+
+.btn:hover::before {
+    left: 100%;
+}
+
+.btn-primary {
+    background: var(--gradient-neon);
+    border: 1px solid var(--menu-primary);
+}
+
+.btn-outline-primary {
+    background: transparent;
+    border: 2px solid var(--menu-primary);
+    color: var(--menu-primary);
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.1);
+}
+
+.btn-outline-primary:hover {
+    background: var(--menu-primary);
+    color: white;
+    box-shadow: var(--neon-glow);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, var(--menu-success), #06b6d4);
+}
+
+.btn-outline-success {
+    border-color: var(--menu-success);
+    color: var(--menu-success);
+}
+
+.btn-outline-success:hover {
+    background: var(--menu-success);
+    border-color: var(--menu-success);
 }
 
 /* Form Enhancements */
@@ -89,45 +226,162 @@ body {
     transform: scale(1.05);
 }
 
-/* Menu Section Styles */
-.menu-section {
-    border-left: 4px solid var(--menu-primary);
-    background: linear-gradient(90deg, rgba(79, 70, 229, 0.1), transparent);
-    border-radius: 0 0.5rem 0.5rem 0;
-    margin: 2rem 0 1rem 0;
-    padding: 1rem 1.5rem;
-}
-
-.menu-section h2 {
-    color: var(--menu-primary);
-    font-weight: 600;
-}
-
-/* Dish Cards */
-.dish-card {
-    transition: all 0.2s ease;
-    border-radius: 0.75rem;
+/* Accordion Menu Sections - Futuristic Style */
+.accordion {
+    border-radius: var(--border-radius-xl);
     overflow: hidden;
+    box-shadow: var(--soft-shadow);
+}
+
+.accordion-item {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(0, 212, 255, 0.1);
+    border-radius: var(--border-radius-lg);
+    margin-bottom: 1rem;
+    overflow: hidden;
+    position: relative;
+}
+
+.accordion-item::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: var(--gradient-neon);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.accordion-item:hover::before {
+    opacity: 1;
+}
+
+.accordion-button {
+    background: rgba(0, 212, 255, 0.05);
+    border: none;
+    color: #e2e8f0;
+    font-weight: 700;
+    font-size: 1.2rem;
+    padding: 1.5rem 2rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.accordion-button::after {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%2300d4ff'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
+    filter: drop-shadow(0 0 5px rgba(0, 212, 255, 0.5));
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.accordion-button:not(.collapsed) {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(124, 58, 237, 0.2));
+    color: white;
+    box-shadow: inset 0 0 20px rgba(0, 212, 255, 0.3);
+}
+
+.accordion-button:focus {
+    box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
+    border-color: var(--menu-primary);
+}
+
+.accordion-button:hover {
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.15), rgba(124, 58, 237, 0.15));
+    transform: translateY(-2px);
+}
+
+.accordion-body {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 2rem;
+    border-top: 1px solid rgba(0, 212, 255, 0.2);
+}
+
+.accordion-collapse {
+    border: none;
+}
+
+/* Dish Cards - Futuristic Style */
+.dish-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 212, 255, 0.15);
+    border-radius: var(--border-radius-lg);
+    transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.dish-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(0, 212, 255, 0.05), rgba(244, 113, 181, 0.05));
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 1;
 }
 
 .dish-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 25px 50px rgba(0, 212, 255, 0.3);
+    border-color: var(--menu-primary);
+}
+
+.dish-card:hover::before {
+    opacity: 1;
 }
 
 .dish-image {
-    height: 120px;
+    height: 140px;
     object-fit: cover;
-    border-radius: 0.75rem 0 0 0.75rem;
+    border-radius: var(--border-radius-lg) 0 0 var(--border-radius-lg);
+    transition: all 0.5s ease;
+    position: relative;
+    z-index: 2;
+}
+
+.dish-card:hover .dish-image {
+    filter: brightness(1.1) contrast(1.1);
+    transform: scale(1.05);
 }
 
 .dish-price {
-    background: linear-gradient(45deg, var(--menu-primary), var(--menu-secondary));
+    background: var(--gradient-neon);
     color: white;
-    padding: 0.25rem 0.75rem;
-    border-radius: 1rem;
-    font-weight: 600;
-    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    border-radius: 15px;
+    font-weight: 700;
+    font-size: 1rem;
+    box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
+    position: relative;
+    z-index: 3;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.dish-card .card-body {
+    position: relative;
+    z-index: 2;
+    background: rgba(0, 0, 0, 0.2);
+}
+
+.dish-card .card-title {
+    color: white;
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.dish-card .card-text {
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.6;
 }
 
 /* QR Code Styles */
