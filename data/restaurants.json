@@ -11,7 +11,7 @@
     "facebook": "",
     "website": "",
     "created_at": "2025-06-02T06:23:32.487143",
-    "visits": 18,
+    "visits": 21,
     "menu": {
       "sections": [
         {
@@ -28,15 +28,15 @@
           ]
         },
         {
-          "id": "1b95d14a",
+          "id": "5ebc3f63",
           "name": "Chuzos desgranados",
           "dishes": [
             {
-              "id": "ffede173",
-              "name": "Chuzo de pollo",
-              "description": "",
-              "price": "",
-              "image": null
+              "id": "4f034b8f",
+              "name": "Chuzo carne y pollo",
+              "description": "Bollo, lechuga, queso costeño, papa chongo, salsa de la casa & 220 gr de pollo.",
+              "price": "24000.00",
+              "image": "IMG-20250528-WA0131_1748854703.jpg"
             }
           ]
         }
