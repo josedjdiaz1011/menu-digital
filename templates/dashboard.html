@@ -43,7 +43,6 @@
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
                             <h3 class="mb-0">
-                                {% set total_sections = restaurants|sum(attribute='menu.sections')|length %}
                                 {% set total_sections = 0 %}
                                 {% for restaurant in restaurants %}
                                     {% set total_sections = total_sections + restaurant.menu.sections|length %}
@@ -90,7 +89,10 @@
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
                             <h3 class="mb-0">
-                                {% set total_visits = restaurants|sum(attribute='visits') %}
+                                {% set total_visits = 0 %}
+                                {% for restaurant in restaurants %}
+                                    {% set total_visits = total_visits + restaurant.visits %}
+                                {% endfor %}
                                 {{ total_visits }}
                             </h3>
                             <p class="mb-0 small">Visitas Total</p>
